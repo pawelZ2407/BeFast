@@ -11,7 +11,7 @@ public class WeaponsSystem : MonoBehaviour
     public float bulletSpeed;
     public float bulletChargingTime;
     public float chargedBulletScale = 0.4f;
-    Coroutine shoot;
+    Coroutine shooting;
     void Start()
     {
         
@@ -22,12 +22,12 @@ public class WeaponsSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            shoot = StartCoroutine(StartShoot());
+            shooting = StartCoroutine(StartShoot());
         }
         if (Input.GetMouseButtonUp(0))
         {
             Destroy(bullet);
-            StopCoroutine(shoot);
+            StopCoroutine(shooting);
         }
     }
     GameObject bullet;
@@ -36,7 +36,8 @@ public class WeaponsSystem : MonoBehaviour
         int turretNumber = 0;
         while (true)
         {
-            bullet = Instantiate(bulletPrefab);
+            bullet = Instantiate(bulletPrefab,this.transform);
+            
             if (turretNumber == 0)
             {
                 bullet.transform.position = leftSpawner.position;
@@ -49,8 +50,11 @@ public class WeaponsSystem : MonoBehaviour
             }
             bullet.transform.DOScale(chargedBulletScale, bulletChargingTime);
             yield return new WaitForSeconds(bulletChargingTime);
+            bullet.transform.parent = null;
+            bullet.GetComponent<CircleCollider2D>().enabled = true;
             bullet.transform.rotation = this.transform.rotation;
-            bullet.GetComponent<Rigidbody2D>().AddForce(bullet.transform.up * bulletSpeed * Time.deltaTime, ForceMode2D.Impulse); 
+
+            bullet.GetComponent<Rigidbody2D>().velocity=bullet.transform.up * bulletSpeed * Time.deltaTime; 
         }   
     }
 }
