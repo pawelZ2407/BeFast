@@ -5,7 +5,7 @@ using Pathfinding;
 using DG.Tweening;
 public class EnemyAI : MonoBehaviour
 {
-    public Transform player;
+    private Transform player;
     public Transform enemyBody;
 
     public float speed;
@@ -23,6 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        player = GameManager.instance.player;
         rb2d = GetComponent<Rigidbody2D>();
         path = GetComponent<AIPath>();
     }

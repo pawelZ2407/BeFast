@@ -8,7 +8,7 @@ public class EnemyRotation : MonoBehaviour
     public float rotationSpeed;
     void Start()
     {
-        player = transform.parent.GetComponent<EnemyAI>().player;
+        player = GameManager.instance.player;
     }
 
     // Update is called once per frame

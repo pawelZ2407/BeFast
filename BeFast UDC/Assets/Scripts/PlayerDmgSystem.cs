@@ -5,22 +5,42 @@ using UnityEngine.UI;
 
 public class PlayerDmgSystem : MonoBehaviour
 {
-    [SerializeField] Slider slider;
+    [SerializeField] Slider shieldSlider;
+    [SerializeField] Slider healthSlider;
     int health=100;
-
+    public float shieldRecoveryRate = 10;
+    float shieldPoints = 100;
+    float maxShieldPoints = 100;
     void Start()
     {
-        slider.value = health;
+        healthSlider.value = health;
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        RecoverShield();
+    }
     public void GetDamage(int dmg)
     {
         health -= dmg;
-        slider.value = health;
+        healthSlider.value = health;
+
         if (health <= 0)
         {
             GameManager.instance.GameOver();
+        }
+    }
+    public void ShieldDamage(int dmg)
+    {
+        shieldPoints -= dmg;
+        shieldSlider.value = shieldPoints;
+    }
+    private void RecoverShield()
+    {
+        if (shieldPoints < maxShieldPoints)
+        {
+            shieldPoints += Time.deltaTime * shieldRecoveryRate;
+            shieldSlider.value = shieldPoints;
         }
     }
 }

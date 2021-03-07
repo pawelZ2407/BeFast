@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 public class WeaponsSystem : MonoBehaviour
 {
+
     [SerializeField] Transform leftSpawner;
     [SerializeField] Transform rightSpawner;
     [SerializeField] GameObject bulletPrefab;
@@ -11,6 +13,7 @@ public class WeaponsSystem : MonoBehaviour
     public float bulletSpeed;
     public float bulletChargingTime;
     public float chargedBulletScale = 0.4f;
+  
     Coroutine shooting;
     void Start()
     {
@@ -31,6 +34,7 @@ public class WeaponsSystem : MonoBehaviour
         }
     }
     GameObject bullet;
+
     IEnumerator StartShoot()
     {
         int turretNumber = 0;
