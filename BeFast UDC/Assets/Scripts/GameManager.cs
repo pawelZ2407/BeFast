@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
        
     }
     public Transform player;
+    public float playerSpeed;
+
     [SerializeField] TMP_Text text;
     public int score;
     [SerializeField] GameObject coinPrefab;
