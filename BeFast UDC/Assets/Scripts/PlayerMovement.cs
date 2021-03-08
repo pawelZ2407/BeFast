@@ -23,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public int boostHitDamage;
     private bool isBoosting;
 
-    public int scoreForCoin;
+
+    
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -34,8 +35,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xMove = Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime;
-        float yMove = Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
+        float xMove = Input.GetAxisRaw("Horizontal") * speed;
+        float yMove = Input.GetAxisRaw("Vertical") * speed;
         move = new Vector2(xMove, yMove);
         Vector2.ClampMagnitude(move, speed);
         if (Input.GetKey(KeyCode.LeftShift)&&fuel>0)
@@ -65,17 +66,9 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        rb2d.velocity = move;
+        rb2d.velocity = move*Time.deltaTime;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Coin"))
-        {
-            GameManager.instance.AddScore(scoreForCoin);
-            Destroy(collision.gameObject);
-            GameManager.instance.SpawnCoin();
-        }
-    }
+   
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Enemy") && isBoosting)
@@ -93,4 +86,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+
 }

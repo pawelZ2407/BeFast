@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Coin
   - Shield
+  - HealthPack
+  - ForceField
+  - Obstacle
   layers:
   - Default
   - TransparentFX

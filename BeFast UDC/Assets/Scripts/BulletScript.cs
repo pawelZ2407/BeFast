@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     CircleCollider2D coll;
-    [SerializeField] int damage;
+    public int damage;
     void Awake()
     {
         coll = GetComponent<CircleCollider2D>();
@@ -20,5 +20,16 @@ public class BulletScript : MonoBehaviour
             collision.collider.GetComponent<EnemyDmgSystem>().GetDamage(damage);
         }
         Destroy(this.gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.GetComponent<EnemyDmgSystem>().GetDamage(damage);
+        }
+        if (collision.CompareTag("Obstacle"))
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

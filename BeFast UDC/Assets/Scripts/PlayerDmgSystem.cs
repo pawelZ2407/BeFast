@@ -7,13 +7,16 @@ public class PlayerDmgSystem : MonoBehaviour
 {
     [SerializeField] Slider shieldSlider;
     [SerializeField] Slider healthSlider;
-    int health=100;
+    float health=100;
+    int maxHealth = 100;
     public float shieldRecoveryRate = 10;
     float shieldPoints = 100;
     float maxShieldPoints = 100;
+    public bool isImmortal;
     void Start()
     {
         healthSlider.value = health;
+        shieldSlider.value = shieldPoints;
     }
 
     private void Update()
@@ -22,18 +25,57 @@ public class PlayerDmgSystem : MonoBehaviour
     }
     public void GetDamage(int dmg)
     {
-        health -= dmg;
-        healthSlider.value = health;
-
-        if (health <= 0)
+        if (shieldPoints >= 0&& !isImmortal)
         {
-            GameManager.instance.GameOver();
+            if (shieldPoints >= dmg)
+            {
+                ShieldDamage(dmg);
+            }
+            else
+            {
+                float dmgDifference = dmg - shieldPoints;
+                health -= dmgDifference;
+                healthSlider.value=health;
+                shieldPoints = 0;
+                shieldSlider.value = shieldPoints;
+                if (health <= 0)
+                {
+                    health = 0;
+                    GameManager.instance.GameOver();
+                }
+            }
         }
+    }
+    public void Heal(int healAmount)
+    {
+       
+        health +=healAmount;
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }
+        healthSlider.value = health;
     }
     public void ShieldDamage(int dmg)
     {
-        shieldPoints -= dmg;
-        shieldSlider.value = shieldPoints;
+        if (!isImmortal&&shieldPoints>0)
+        {
+            shieldPoints -= dmg;
+            if (shieldPoints < 0)
+            {
+                shieldPoints = 0;
+            }
+            shieldSlider.value = shieldPoints;
+        }
+    }
+    public void ShieldRecover(int recoverAmount)
+    {
+        shieldPoints += recoverAmount;
+        if (shieldPoints >= maxShieldPoints)
+        {
+            shieldPoints = maxShieldPoints;
+        }
+        shieldSlider.value = health;
     }
     private void RecoverShield()
     {
