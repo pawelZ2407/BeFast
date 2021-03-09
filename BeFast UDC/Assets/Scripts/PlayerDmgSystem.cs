@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerDmgSystem : MonoBehaviour
 {
+
     [SerializeField] Slider shieldSlider;
     [SerializeField] Slider healthSlider;
     float health=100;
@@ -13,8 +14,10 @@ public class PlayerDmgSystem : MonoBehaviour
     float shieldPoints = 100;
     float maxShieldPoints = 100;
     public bool isImmortal;
-    void Start()
+    void Awake()
     {
+        health = maxHealth;
+        shieldPoints = maxShieldPoints;
         healthSlider.value = health;
         shieldSlider.value = shieldPoints;
     }
@@ -40,8 +43,8 @@ public class PlayerDmgSystem : MonoBehaviour
                 shieldSlider.value = shieldPoints;
                 if (health <= 0)
                 {
-                    health = 0;
                     GameManager.instance.GameOver();
+
                 }
             }
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Pathfinding;
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
@@ -20,13 +21,17 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+        
+        
         SpawnCoin();
         AddScore(0);
         SavingSystemInit();
        
     }
+    [SerializeField] GameObject mainMenuScreen;
+    [SerializeField] GameObject gameOverScreen;
+
     public Transform player;
-    public float playerSpeed;
 
     [SerializeField] TMP_Text text;
     public int score;
@@ -54,6 +59,8 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
+        Time.timeScale = 0;
+        gameOverScreen.SetActive(true);
         PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
         if (score > PlayerPrefs.GetInt("Highscore"))
         {
@@ -72,7 +79,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Money", score);
         }
     }
-
+    #region coinsSpawn;
     public void SpawnCoin()
     {
 
@@ -112,4 +119,8 @@ public class GameManager : MonoBehaviour
         Instantiate(powerUps[Random.Range(0, powerUps.Count)], randomPos,Quaternion.identity);
         isPowerUpSpawned = true;
     }
+    #endregion;
+
+
+
 }

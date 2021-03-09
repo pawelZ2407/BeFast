@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     Camera cam;
     Vector2 move;
     public float speed = 5;
+    public float speedAddedPerUpgrade = 10;
     public float fastSpeedMultiplier;
     public float rotationSpeed = 10;
     public float fuel = 100;
@@ -23,13 +24,17 @@ public class PlayerMovement : MonoBehaviour
     public int boostHitDamage;
     private bool isBoosting;
 
+    private void Awake()
+    {
+    }
 
-    
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         cam = Camera.main;
         playerDmgSys = GetComponent<PlayerDmgSystem>();
+        speed +=PlayerPrefs.GetInt("SpeedUpgrades")*speedAddedPerUpgrade;
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
