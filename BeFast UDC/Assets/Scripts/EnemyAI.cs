@@ -8,6 +8,7 @@ public class EnemyAI : MonoBehaviour
     private Transform player;
     public Transform enemyBody;
 
+    public float startShootingDistance;
     public float speed;
     public float bulletChargingTime;
     public float chargedBulletScale;
@@ -31,11 +32,11 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(player.position,transform.position)<=path.endReachedDistance&&!isShooting)
+        if (Vector2.Distance(player.position,transform.position)<=startShootingDistance&&!isShooting)
         {
             shoot = StartCoroutine(Shooting());
         }
-        else if(Vector2.Distance(player.position,transform.position)> path.endReachedDistance+1f && shoot!=null&& isShooting)
+        else if(Vector2.Distance(player.position,transform.position)> startShootingDistance+1f && shoot!=null&& isShooting)
         {
             isShooting = false;
             StopCoroutine(shoot);

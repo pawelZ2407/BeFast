@@ -11,18 +11,30 @@ public class WeaponsSystem : MonoBehaviour
     [SerializeField] Transform middleSpawner;
     [SerializeField] GameObject bulletPrefab;
 
+    public float bulletSpeedUpgradeRate;
+    public float chargeTimeDecreaseRate;
     public float bulletSpeed;
     public float bulletChargingTime;
     public float secondaryModeChargingTime;
     public float chargedBulletScale = 0.4f;
     public float chargedSecondaryBulletScale = 1f;
-    public int secondaryFireDamage;
+    public float primaryFireDamage;
+    public float damageUpgradeRateP;
+    public float damageUpgradeRateS;
+    public float secondaryFireDamage;
     bool isCharging;
     bool isShooting;
     Coroutine shooting;
     void Start()
     {
-        
+        int weaponsUpgradeLevel = PlayerPrefs.GetInt("WeaponsUpgrades");
+        bulletSpeed += weaponsUpgradeLevel * bulletSpeedUpgradeRate;
+        bulletChargingTime -= weaponsUpgradeLevel* chargeTimeDecreaseRate;
+        secondaryModeChargingTime -= weaponsUpgradeLevel * chargeTimeDecreaseRate;
+        primaryFireDamage += weaponsUpgradeLevel * damageUpgradeRateP;
+        secondaryFireDamage += weaponsUpgradeLevel * damageUpgradeRateS;
+
+        bulletPrefab.GetComponent<BulletScript>().damage = secondaryFireDamage;
     }
 
     // Update is called once per frame
@@ -90,7 +102,7 @@ public class WeaponsSystem : MonoBehaviour
         bullet.GetComponent<CircleCollider2D>().enabled = true;
         bullet.GetComponent<CircleCollider2D>().isTrigger = true;
         bullet.transform.rotation = this.transform.rotation;
-        bullet.GetComponent<BulletScript>().damage = secondaryFireDamage;
+        
         bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * bulletSpeed * Time.deltaTime;
         isCharging = false;
     }

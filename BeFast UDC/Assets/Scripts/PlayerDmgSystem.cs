@@ -8,9 +8,12 @@ public class PlayerDmgSystem : MonoBehaviour
 
     [SerializeField] Slider shieldSlider;
     [SerializeField] Slider healthSlider;
-    float health=100;
-    int maxHealth = 100;
-    public float shieldRecoveryRate = 10;
+    float health=60;
+    float  maxHealth = 60;
+    [SerializeField] float maxHealthIncreaseRate;
+    [SerializeField] float maxShieldIncreaseRate;
+    [SerializeField] float shieldRecoveryUpgradeRate;
+    public float shieldRecoveryRate = 2;
     float shieldPoints = 100;
     float maxShieldPoints = 100;
     public bool isImmortal;
@@ -21,7 +24,18 @@ public class PlayerDmgSystem : MonoBehaviour
         healthSlider.value = health;
         shieldSlider.value = shieldPoints;
     }
-
+    private void Start()
+    {
+        maxHealth += PlayerPrefs.GetInt("HealthUpgrades") * maxHealthIncreaseRate;
+        healthSlider.maxValue = maxHealth;
+        health = maxHealth;
+        healthSlider.value = health;
+        maxShieldPoints += PlayerPrefs.GetInt("ShieldUpgrades") * maxShieldIncreaseRate;
+        shieldSlider.maxValue = maxShieldPoints;
+        shieldPoints = maxShieldPoints;
+        shieldSlider.value = shieldPoints;
+        shieldRecoveryRate+=PlayerPrefs.GetInt("ShieldUpgrades")* shieldRecoveryUpgradeRate;
+    }
     private void Update()
     {
         RecoverShield();

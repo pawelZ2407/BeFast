@@ -15,7 +15,7 @@ public class UpgradesController : MonoBehaviour
     [SerializeField] Slider weaponsSlider;
     [SerializeField] TMP_Text weaponsPriceText;
     int weaponsUpgradesAmount = 1;
-    int[] weaponsPrices = new int[5] { 1000,2000,3000,4000,5000 };
+    int[] weaponsPrices = new int[10] { 1000,2000,3000,4000,5000,6000,7000,8000,9000,10000 };
     
     [SerializeField] Slider shieldSlider;
     [SerializeField] TMP_Text shieldPriceText;

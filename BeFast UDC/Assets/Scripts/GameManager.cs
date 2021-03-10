@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using Pathfinding;
-using UnityEngine.SceneManagement;
+using Cinemachine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
-
+   
     public static GameManager instance { get { return _instance; } }
 
     private void Awake()
@@ -21,8 +20,8 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
-        
-        
+
+       
         SpawnCoin();
         AddScore(0);
         SavingSystemInit();
@@ -32,8 +31,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject gameOverScreen;
 
     public Transform player;
+    float shakeTimer;
 
-    [SerializeField] TMP_Text text;
+    private void Start()
+    {
+
+    }
+
+    [SerializeField] TMP_Text scoreText;
     public int score;
     [SerializeField] GameObject coinPrefab;
 
@@ -55,7 +60,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int scoreToAdd)
     {
         score += scoreToAdd;
-        text.text = score.ToString();
+        scoreText.text = score.ToString();
     }
     public void GameOver()
     {

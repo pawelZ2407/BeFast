@@ -24,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     public int boostHitDamage;
     private bool isBoosting;
 
+    [SerializeField] float fuelDecreaseUpgradeRate;
+    [SerializeField] float fuelRecoverUpgradeRate;
+
     private void Awake()
     {
     }
@@ -34,6 +37,10 @@ public class PlayerMovement : MonoBehaviour
         cam = Camera.main;
         playerDmgSys = GetComponent<PlayerDmgSystem>();
         speed +=PlayerPrefs.GetInt("SpeedUpgrades")*speedAddedPerUpgrade;
+        int boostUpgrades = PlayerPrefs.GetInt("SpeedBoosterUpgrades");
+        fuelDecreaseRate -= boostUpgrades * fuelDecreaseUpgradeRate;
+        fuelRecoverRate += boostUpgrades * fuelRecoverUpgradeRate;
+        fuel = maxFuel;
         Time.timeScale = 1;
     }
 

@@ -6,15 +6,16 @@ public class PlayerCollision : MonoBehaviour
 {
     PlayerDmgSystem playerDmgSys;
 
-    public int scoreForCoin;
-    public int healthPackHeal;
-    public int shieldPackPoints;
-    public int immortalDuration;
-
+    [SerializeField] int scoreForCoin;
+    [SerializeField] int healthPackHeal;
+    [SerializeField] int shieldPackPoints;
+    [SerializeField] float immortalDuration;
+    [SerializeField] float immortalDurationIncreaseRate;
     [SerializeField] GameObject forceField;
     void Start()
     {
         playerDmgSys = GetComponent<PlayerDmgSystem>();
+        immortalDuration+= PlayerPrefs.GetInt("PowerUpsUpgrades")* immortalDurationIncreaseRate;
     }
 
     // Update is called once per frame

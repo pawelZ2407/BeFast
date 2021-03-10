@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletScript : MonoBehaviour
 {
     CircleCollider2D coll;
-    public int damage;
+    public float damage;
     void Awake()
     {
         coll = GetComponent<CircleCollider2D>();

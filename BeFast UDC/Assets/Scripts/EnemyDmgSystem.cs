@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
+using Cinemachine;
 public class EnemyDmgSystem : MonoBehaviour
 {
     [SerializeField] Slider slider;
     [SerializeField] GameObject deadEffect;
-    int health=100;
+    float health=100;
     void Start()
     {
         slider.value = health;
     }
 
-    public void GetDamage(int damage)
+    public void GetDamage(float damage)
     {
         health -= damage;
         slider.value = health;
