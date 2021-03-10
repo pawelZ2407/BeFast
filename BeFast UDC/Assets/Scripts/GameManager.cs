@@ -32,10 +32,12 @@ public class GameManager : MonoBehaviour
 
     public Transform player;
     float shakeTimer;
-
+    [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
+    CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin;
     private void Start()
     {
-
+        cinemachineBasicMultiChannelPerlin =
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     [SerializeField] TMP_Text scoreText;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     float timer;
     [SerializeField] TMP_Text timerText;
+
     private void Update()
     {
         timer += Time.deltaTime;
@@ -126,6 +129,16 @@ public class GameManager : MonoBehaviour
     }
     #endregion;
 
-
+    public void ShakeCamera(float amplitudeGain, float time)
+    {     
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = amplitudeGain;
+        shakeTimer = time;
+        StartCoroutine(CameraShakeCoroutine());
+    }
+    IEnumerator CameraShakeCoroutine()
+    {
+        yield return new WaitForSeconds(shakeTimer);      
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
+    }
 
 }

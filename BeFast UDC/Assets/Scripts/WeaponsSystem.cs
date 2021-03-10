@@ -5,67 +5,130 @@ using UnityEngine.UI;
 using DG.Tweening;
 public class WeaponsSystem : MonoBehaviour
 {
-
+    LineRenderer lr;
     [SerializeField] Transform leftSpawner;
     [SerializeField] Transform rightSpawner;
     [SerializeField] Transform middleSpawner;
     [SerializeField] GameObject bulletPrefab;
 
-    public float bulletSpeedUpgradeRate;
-    public float chargeTimeDecreaseRate;
-    public float bulletSpeed;
-    public float bulletChargingTime;
-    public float secondaryModeChargingTime;
-    public float chargedBulletScale = 0.4f;
-    public float chargedSecondaryBulletScale = 1f;
-    public float primaryFireDamage;
-    public float damageUpgradeRateP;
-    public float damageUpgradeRateS;
-    public float secondaryFireDamage;
+    [SerializeField] float bulletSpeedUpgradeRate;
+    [SerializeField] float chargeTimeDecreaseRate;
+    [SerializeField] float bulletSpeed;
+    [SerializeField] float bulletChargingTime;
+    [SerializeField] float secondaryModeChargingTime;
+    [SerializeField] float chargedBulletScale = 0.4f;
+    [SerializeField] float chargedSecondaryBulletScale = 1f;
+    [SerializeField] float primaryFireDamage;
+    [SerializeField] float damageUpgradeRateP;
+    [SerializeField] float damageUpgradeRateS;
+    [SerializeField] float secondaryFireDamage;
+
+    [SerializeField] float laserChargeTime;
+    [SerializeField] float laserSpeed;
+    [SerializeField] float laserDamage;
+    [SerializeField] float laserDamageUpgradeRate;
+    [SerializeField] GameObject laserLight;
+    [SerializeField] LayerMask laserDetectionLayerMask;
+    [SerializeField] Transform laserEndPoint;
+    GameObject spawnedLight;
+
     bool isCharging;
     bool isShooting;
+    public string equippedWeapon;
     Coroutine shooting;
     void Start()
     {
+        equippedWeapon = "Laser";
+        lr = GetComponent<LineRenderer>();
         int weaponsUpgradeLevel = PlayerPrefs.GetInt("WeaponsUpgrades");
         bulletSpeed += weaponsUpgradeLevel * bulletSpeedUpgradeRate;
         bulletChargingTime -= weaponsUpgradeLevel* chargeTimeDecreaseRate;
         secondaryModeChargingTime -= weaponsUpgradeLevel * chargeTimeDecreaseRate;
         primaryFireDamage += weaponsUpgradeLevel * damageUpgradeRateP;
         secondaryFireDamage += weaponsUpgradeLevel * damageUpgradeRateS;
-
+        laserDamage += weaponsUpgradeLevel * laserDamageUpgradeRate;
         bulletPrefab.GetComponent<BulletScript>().damage = secondaryFireDamage;
     }
 
     // Update is called once per frame
     void Update()
     {
-      
-        if (Input.GetMouseButtonDown(0)&&!isCharging && !isShooting )
+        if (!isCharging && !isShooting)
+            OnMouseButtonDown();
+
+        if (isShooting || isCharging)
         {
-            isShooting = true;
-            shooting = StartCoroutine(StartShoot());
+            OnMouseButtonUp();
         }
-        if (Input.GetMouseButtonDown(1) &&!isCharging&& !isShooting)
+        if (isShooting)
+        {
+            OnMouseButton();
+        }
+
+      
+    }
+    GameObject bullet;
+    void OnMouseButtonDown()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            if (equippedWeapon == "Default")
+            {
+                shooting = StartCoroutine(StartShoot());
+                isShooting = true;
+            }
+            if (equippedWeapon == "Laser")
+            {
+                shooting = StartCoroutine(LaserStart());
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
         {
             isCharging = true;
             shooting = StartCoroutine(SecondaryFireMode());
         }
-        if (Input.GetMouseButtonUp(0)&& isShooting)
+    }
+
+    private void OnMouseButton()
+    {
+        if (Input.GetMouseButton(0))
         {
-            Destroy(bullet);
-            StopCoroutine(shooting);
-            isShooting = false;
+            if (equippedWeapon == "Laser")
+            {
+                Laser();
+            }
+
         }
-        if (Input.GetMouseButtonUp(1)&&isCharging)
+        if (Input.GetMouseButton(1))
+        {
+
+        }
+    }
+    void OnMouseButtonUp()
+    {
+        if (Input.GetMouseButtonUp(0) && isShooting)
+        {
+            if(bullet!=null) Destroy(bullet);
+            if (spawnedLight != null) Destroy(spawnedLight);
+            if (shooting != null)
+            {
+                StopCoroutine(shooting);
+            }
+            laserEndPoint.position = middleSpawner.position;
+            isShooting = false;
+            lr.enabled = false;
+        }
+        if (Input.GetMouseButtonUp(1) && isCharging)
         {
             Destroy(bullet);
-            StopCoroutine(shooting);
+            if (shooting != null)
+            {
+                StopCoroutine(shooting);
+            }
             isCharging = false;
         }
     }
-    GameObject bullet;
-
     IEnumerator StartShoot()
     {
         int turretNumber = 0;
@@ -106,4 +169,35 @@ public class WeaponsSystem : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * bulletSpeed * Time.deltaTime;
         isCharging = false;
     }
+    void Laser()
+    {
+        lr.enabled = true;
+        lr.SetPosition(0, middleSpawner.position);
+        RaycastHit2D hit = Physics2D.Raycast(middleSpawner.position, transform.up, 100,laserDetectionLayerMask);
+
+
+        if (Vector2.Distance(middleSpawner.position, laserEndPoint.position) < Vector2.Distance(middleSpawner.position, hit.point))
+        {
+            lr.SetPosition(1, laserEndPoint.position);
+            laserEndPoint.transform.Translate(transform.up * laserSpeed * Time.deltaTime,Space.World);
+        }
+        else
+        {
+            lr.SetPosition(1, hit.point);
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                hit.collider.GetComponent<EnemyDmgSystem>().GetHeat();
+            }
+        }
+
+
+    }
+    IEnumerator LaserStart()
+    {
+        yield return new WaitForSeconds(laserChargeTime);
+        isShooting = true;
+        spawnedLight = Instantiate(laserLight, transform);
+    }
+
+
 }

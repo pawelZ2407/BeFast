@@ -43,6 +43,7 @@ public class UpgradesController : MonoBehaviour
     int inventorySizeUpgradesAmount;
     int inventorySizeUpgradePrice;
 
+    string maximumLevelText = "MAXIMUM LEVEL";
     private void Awake()
     {
         Initializer();
@@ -52,22 +53,66 @@ public class UpgradesController : MonoBehaviour
     {
 
         speedSlider.value = speedUpgradesAmount;
-        speedPriceText.text = speedPrices[speedUpgradesAmount - 1].ToString();
+        
+        if(speedUpgradesAmount < speedPrices.Length)
+        {
+            speedPriceText.text = speedPrices[speedUpgradesAmount - 1].ToString();
+        }
+        else
+        {
+            speedPriceText.text = maximumLevelText;
+        }
 
         weaponsSlider.value = weaponsUpgradesAmount;
-        weaponsPriceText.text = weaponsPrices[weaponsUpgradesAmount - 1].ToString(); 
+        if (weaponsUpgradesAmount < weaponsPrices.Length)
+        {
+            weaponsPriceText.text = weaponsPrices[weaponsUpgradesAmount - 1].ToString();
+        }
+        else
+        {
+            weaponsPriceText.text = maximumLevelText;
+        }
+
 
         shieldSlider.value = shieldUpgradesAmount;
-        shieldPriceText.text = shieldPrices[shieldUpgradesAmount - 1].ToString();
+        if (shieldUpgradesAmount < shieldPrices.Length)
+        {
+            shieldPriceText.text = shieldPrices[shieldUpgradesAmount - 1].ToString();
+        }
+        else
+        {
+            shieldPriceText.text = maximumLevelText;
+        }
 
         healthSlider.value = healthUpgradesAmount;
-        healthPriceText.text = healthPrices[healthUpgradesAmount - 1].ToString();
+        if (healthUpgradesAmount < healthPrices.Length)
+        {
+            healthPriceText.text = healthPrices[healthUpgradesAmount - 1].ToString();
+        }
+        else
+        {
+            healthPriceText.text = maximumLevelText;
+        }
 
         powerUpsSlider.value = powerUpsUpgradesAmount;
-        powerUpsPriceText.text = powerUpsPrices[powerUpsUpgradesAmount - 1].ToString();
+        if (powerUpsUpgradesAmount < powerUpsPrices.Length)
+        {
+            powerUpsPriceText.text = powerUpsPrices[powerUpsUpgradesAmount - 1].ToString();
+        }
+        else
+        {
+            powerUpsPriceText.text = maximumLevelText;
+        }
 
         speedBoosterSlider.value = speedBoosterUpgradesAmount;
-        speedBoosterPriceText.text = speedBoosterPrices[speedBoosterUpgradesAmount - 1].ToString();
+        if (speedBoosterUpgradesAmount < speedBoosterPrices.Length)
+        {
+            speedBoosterPriceText.text = speedBoosterPrices[speedBoosterUpgradesAmount - 1].ToString();
+        }
+        else
+        {
+            speedBoosterPriceText.text = maximumLevelText;
+        }
         PlayerPrefs.SetInt("Money", 10000000);
 
         Debug.Log("Money: " + PlayerPrefs.GetInt("Money"));
@@ -365,4 +410,5 @@ public class UpgradesController : MonoBehaviour
         int money = PlayerPrefs.GetInt("Money");
         PlayerPrefs.SetInt("Money", money - amount);
     }
+
 }

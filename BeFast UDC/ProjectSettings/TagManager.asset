@@ -11,6 +11,8 @@ TagManager:
   - HealthPack
   - ForceField
   - Obstacle
+  - DefaultWeapon
+  - LaserWeapon
   layers:
   - Default
   - TransparentFX
@@ -47,6 +49,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 3934465155
+    locked: 0
+  - name: Laser
+    uniqueID: 931706349
     locked: 0
   - name: Default
     uniqueID: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     PlayerDmgSystem playerDmgSys;
-
+    WeaponsSystem weaponsSystem;
     [SerializeField] int scoreForCoin;
     [SerializeField] int healthPackHeal;
     [SerializeField] int shieldPackPoints;
@@ -15,6 +15,7 @@ public class PlayerCollision : MonoBehaviour
     void Start()
     {
         playerDmgSys = GetComponent<PlayerDmgSystem>();
+        weaponsSystem = GetComponent<WeaponsSystem>();
         immortalDuration+= PlayerPrefs.GetInt("PowerUpsUpgrades")* immortalDurationIncreaseRate;
     }
 
@@ -46,6 +47,17 @@ public class PlayerCollision : MonoBehaviour
         if (collision.CompareTag("ForceField"))
         {
             StartCoroutine(ShieldImmortality());
+            Destroy(collision.gameObject);
+            GameManager.instance.isPowerUpSpawned = false;
+        }
+        if (collision.CompareTag("LaserWeapon"))
+        {
+            weaponsSystem.equippedWeapon = "Laser";
+            Destroy(collision.gameObject);
+            GameManager.instance.isPowerUpSpawned = false;
+        }
+        if(collision.CompareTag("DefaultWeapon")){
+            weaponsSystem.equippedWeapon = "Default";
             Destroy(collision.gameObject);
             GameManager.instance.isPowerUpSpawned = false;
         }
