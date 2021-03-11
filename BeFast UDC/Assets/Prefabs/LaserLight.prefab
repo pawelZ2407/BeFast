@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1347487327264991238}
   - component: {fileID: 7518856106416673579}
-  - component: {fileID: -1055893694334035814}
+  - component: {fileID: 113322493291793668}
   m_Layer: 0
   m_Name: LaserLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1347487327264991238
 Transform:
   m_ObjectHideFlags: 0
@@ -47,10 +47,10 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 0.6020689, b: 0, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.6868738, b: 0, a: 1}
+  m_Intensity: 200
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: edb58837
+  m_ApplyToSortingLayers: 832c83eaedb5883700000000f9d055d2b581ef2885a5a3e2
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -59,8 +59,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 1
-  m_PointLightOuterRadius: 25
+  m_PointLightInnerRadius: 0.2
+  m_PointLightOuterRadius: 0.4
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
@@ -73,18 +73,16 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!114 &-1055893694334035814
+--- !u!114 &113322493291793668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8103102228305904481}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: decc12a1ed5a86b45a1d5c9f12886dd0, type: 3}
+  m_Script: {fileID: 11500000, guid: 110a4dad2f82a2449bda9086b00faeda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charged: 0
   moveSpeed: 10
-  maxRange: 5

@@ -16,6 +16,6 @@ public class GameOverScreenButtons : MonoBehaviour
     }
     public void PlayAgain()
     {
-
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
     }
 }

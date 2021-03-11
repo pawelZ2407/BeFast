@@ -8,6 +8,7 @@ public class EnemyDmgSystem : MonoBehaviour
 {
     [SerializeField] Slider slider;
     [SerializeField] GameObject deadEffect;
+    [SerializeField] GameObject deadLightEffect;
     [SerializeField] float laserExplosionRange;
     [SerializeField] float explosionDamage;
     [SerializeField] float getHeatTickrate;
@@ -18,7 +19,13 @@ public class EnemyDmgSystem : MonoBehaviour
     float maxHeatTicks=5;
     float currentHeatTicks;
     float timer;
-
+    Coroutine tickingCoroutine;
+    private void OnEnable()
+    {
+        health = 100;
+        slider.value = health;
+        currentHeatTicks = maxHeatTicks;
+    }
     void Start()
     {
         currentHeatTicks = maxHeatTicks;
@@ -37,9 +44,11 @@ public class EnemyDmgSystem : MonoBehaviour
         {
             GameManager.instance.AddScore(5);
             var deadEffectSpawn = Instantiate(deadEffect);
+           
             deadEffectSpawn.transform.position = this.transform.position;
+            Instantiate(deadLightEffect, this.transform.position, Quaternion.identity);
             GameManager.instance.ShakeCamera(5f,0.2f);
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
     }
     public void GetHeat()
@@ -47,7 +56,7 @@ public class EnemyDmgSystem : MonoBehaviour
         timer += Time.deltaTime;
         if (timer >= getHeatTickrate)
         {
-                StartCoroutine(TickColors());
+             tickingCoroutine = StartCoroutine(TickColors());
             currentHeatTicks--;
             timer = 0;
            
@@ -62,6 +71,7 @@ public class EnemyDmgSystem : MonoBehaviour
                     hitCollider.GetComponent<EnemyDmgSystem>().GetDamage(25);
                 }
             }
+            StopCoroutine(tickingCoroutine);
             GetDamage(100);
         }
         

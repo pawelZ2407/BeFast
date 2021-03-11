@@ -71,11 +71,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -766127879
-  m_SortingLayer: 1
+  m_SortingLayerID: -492591739
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 964ac7751a681124aa0aec4f09973fc1, type: 3}
-  m_Color: {r: 0.735849, g: 0.5151945, b: 0, a: 1}
+  m_Color: {r: 0.8018868, g: 0.4187012, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0093cd7482491314d8b20190a17d90ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 25
+  damage: 77
 --- !u!50 &-8998440096668059001
 Rigidbody2D:
   serializedVersion: 4
@@ -181,10 +181,10 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 0.65038824, b: 0, a: 1}
+  m_Color: {r: 0.7075472, g: 0.36919135, b: 0, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 832c83ea00000000f9d055d2
+  m_ApplyToSortingLayers: 832c83ea00000000f9d055d285a5a3e2
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0

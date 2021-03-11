@@ -5,7 +5,8 @@ using TMPro;
 using Pathfinding;
 using Cinemachine;
 public class GameManager : MonoBehaviour
-{
+{   
+
     private static GameManager _instance;
    
     public static GameManager instance { get { return _instance; } }
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
         SavingSystemInit();
        
     }
+    [SerializeField] int enemiesPerSecond;
     [SerializeField] GameObject mainMenuScreen;
     [SerializeField] GameObject gameOverScreen;
 
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     {
         cinemachineBasicMultiChannelPerlin =
             cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        EnemiesPreInstantiate();
     }
 
     [SerializeField] TMP_Text scoreText;
@@ -46,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] List<Transform> coinsSpawnPlaces = new List<Transform>();
     [SerializeField] List<Transform> enemiesSpawnPlaces = new List<Transform>();
-    [SerializeField] List<GameObject> enemiesList = new List<GameObject>();
+    [SerializeField] List<GameObject> enemiesTypesList = new List<GameObject>();
 
     [SerializeField] List<Transform> powerUpsSpawnPlaces = new List<Transform>();
     [SerializeField] List<GameObject> powerUps = new List<GameObject>();
@@ -55,10 +58,22 @@ public class GameManager : MonoBehaviour
     float timer;
     [SerializeField] TMP_Text timerText;
 
+    public Vector2 laserEndPosition;
+
+    private List<GameObject> enemiesToSpawn = new List<GameObject>();
     private void Update()
     {
         timer += Time.deltaTime;
         timerText.text = timer.ToString();
+    }
+    private void EnemiesPreInstantiate()
+    {
+    for(int i = 0; i <= 500; i++)
+        {
+            enemiesToSpawn.Add(Instantiate(enemiesTypesList[0]));
+            enemiesToSpawn[i].GetComponent<AIDestinationSetter>().target = player;
+        }
+        
     }
     public void AddScore(int scoreToAdd)
     {
@@ -113,12 +128,31 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        for(int j=0; j < amountOfEnemies; j++)
+        if (enemiesToSpawn.Count - 1 >= amountOfEnemies * enemiesPerSecond)
         {
-            var enemy = Instantiate(enemiesList[Random.Range(0, enemiesList.Count - 1)]);
-            enemy.transform.position = closestSpawner;
-            enemy.GetComponent<AIDestinationSetter>().target = player;
+            for (int j = 0; j < amountOfEnemies * enemiesPerSecond; j++)
+            {
+                if (!enemiesToSpawn[j].activeSelf)
+                {
+                    enemiesToSpawn[j].SetActive(true);
+                    enemiesToSpawn[j].transform.position = closestSpawner;
+                    enemiesToSpawn[j].GetComponent<AIDestinationSetter>().target = player;
+                }
+            }
         }
+        else
+        {
+            for (int j = 0; j < enemiesToSpawn.Count; j++)
+            {
+                if (!enemiesToSpawn[j].activeSelf)
+                {
+                    enemiesToSpawn[j].SetActive(true);
+                    enemiesToSpawn[j].transform.position = closestSpawner;
+
+                }
+            }
+        }
+       
         
     }
     void SpawnPowerUps()
