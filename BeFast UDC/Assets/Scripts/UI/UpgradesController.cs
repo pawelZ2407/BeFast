@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 public class UpgradesController : MonoBehaviour
 {
+    [SerializeField] GameObject moneyText;
+
     [SerializeField] GameObject UpgradesScreen;
     [SerializeField] GameObject mainMenuScreen;
     [SerializeField] Slider speedSlider;
@@ -51,6 +53,7 @@ public class UpgradesController : MonoBehaviour
 
     private void Start()
     {
+        moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
 
         speedSlider.value = speedUpgradesAmount;
         
@@ -113,7 +116,7 @@ public class UpgradesController : MonoBehaviour
         {
             speedBoosterPriceText.text = maximumLevelText;
         }
-        PlayerPrefs.SetInt("Money", 10000000);
+        //PlayerPrefs.SetInt("Money", 100000);
 
         Debug.Log("Money: " + PlayerPrefs.GetInt("Money"));
     }
@@ -175,13 +178,13 @@ public class UpgradesController : MonoBehaviour
     {
         if (speedUpgradesAmount < speedSlider.maxValue)
         {
-            if (PlayerPrefs.GetInt("Money") >= speedPrices[speedUpgradesAmount])
+            if (PlayerPrefs.GetInt("Money") >= speedPrices[speedUpgradesAmount-1])
             {
-                PlayerPrefs.SetFloat("Speed", 1 * speedUpgradesAmount);
-                RemoveMoney(speedPrices[speedUpgradesAmount]);
+                RemoveMoney(speedPrices[speedUpgradesAmount-1]);
+                moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
                 speedUpgradesAmount++;
                 speedSlider.value = speedUpgradesAmount;
-                speedPriceText.text = speedPrices[speedUpgradesAmount - 1].ToString();
+                speedPriceText.text = speedPrices[speedUpgradesAmount-1].ToString();
                 if (speedUpgradesAmount == speedSlider.maxValue)
                 {
                     speedPriceText.text = "MAXIMUM LEVEL";
@@ -192,7 +195,7 @@ public class UpgradesController : MonoBehaviour
 
             else
             {
-                if (PlayerPrefs.GetInt("Money") <= speedPrices[speedUpgradesAmount])
+                if (PlayerPrefs.GetInt("Money") < speedPrices[speedUpgradesAmount-1])
                 {
                     Debug.Log("You need more money");
                 }
@@ -207,10 +210,10 @@ public class UpgradesController : MonoBehaviour
     {
         if (weaponsUpgradesAmount < weaponsSlider.maxValue)
         {
-            if (PlayerPrefs.GetInt("Money") >= weaponsPrices[weaponsUpgradesAmount])
+            if (PlayerPrefs.GetInt("Money") >= weaponsPrices[weaponsUpgradesAmount - 1])
             {
-                PlayerPrefs.SetFloat("Weapons", 1 * weaponsUpgradesAmount);
-                RemoveMoney(weaponsPrices[weaponsUpgradesAmount]);
+                RemoveMoney(weaponsPrices[weaponsUpgradesAmount - 1]);
+                moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
                 weaponsUpgradesAmount++;
                 weaponsSlider.value = weaponsUpgradesAmount;
                 weaponsPriceText.text = weaponsPrices[weaponsUpgradesAmount - 1].ToString();
@@ -224,7 +227,7 @@ public class UpgradesController : MonoBehaviour
 
             else
             {
-                if (PlayerPrefs.GetInt("Money") <= weaponsPrices[weaponsUpgradesAmount])
+                if (PlayerPrefs.GetInt("Money") < weaponsPrices[weaponsUpgradesAmount - 1])
                 {
                     Debug.Log("You need more money");
                 }
@@ -239,10 +242,10 @@ public class UpgradesController : MonoBehaviour
     {
         if (shieldUpgradesAmount < shieldSlider.maxValue)
         {
-            if (PlayerPrefs.GetInt("Money") >= shieldPrices[shieldUpgradesAmount])
+            if (PlayerPrefs.GetInt("Money") >= shieldPrices[shieldUpgradesAmount - 1])
             {
-                PlayerPrefs.SetFloat("Shield", 1 * shieldUpgradesAmount);
-                RemoveMoney(shieldPrices[shieldUpgradesAmount]);
+                RemoveMoney(shieldPrices[shieldUpgradesAmount - 1]);
+                moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
                 shieldUpgradesAmount++;
                 shieldSlider.value = shieldUpgradesAmount;
                 shieldPriceText.text = shieldPrices[shieldUpgradesAmount - 1].ToString();
@@ -256,7 +259,7 @@ public class UpgradesController : MonoBehaviour
 
             else
             {
-                if (PlayerPrefs.GetInt("Money") <= shieldPrices[shieldUpgradesAmount])
+                if (PlayerPrefs.GetInt("Money") < shieldPrices[shieldUpgradesAmount - 1])
                 {
                     Debug.Log("You need more money");
                 }
@@ -271,10 +274,10 @@ public class UpgradesController : MonoBehaviour
     {
         if (healthUpgradesAmount < healthSlider.maxValue)
         {
-            if (PlayerPrefs.GetInt("Money") >= healthPrices[healthUpgradesAmount])
+            if (PlayerPrefs.GetInt("Money") >= healthPrices[healthUpgradesAmount - 1])
             {
-                PlayerPrefs.SetFloat("Health", 1 * healthUpgradesAmount);
-                RemoveMoney(healthPrices[healthUpgradesAmount]);
+                RemoveMoney(healthPrices[healthUpgradesAmount - 1]);
+                moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
                 healthUpgradesAmount++;
                 healthSlider.value = healthUpgradesAmount;
                 healthPriceText.text = healthPrices[healthUpgradesAmount - 1].ToString();
@@ -288,7 +291,7 @@ public class UpgradesController : MonoBehaviour
 
             else
             {
-                if (PlayerPrefs.GetInt("Money") <= healthPrices[healthUpgradesAmount])
+                if (PlayerPrefs.GetInt("Money") < healthPrices[healthUpgradesAmount - 1])
                 {
                     Debug.Log("You need more money");
                 }
@@ -303,10 +306,10 @@ public class UpgradesController : MonoBehaviour
     {
         if (powerUpsUpgradesAmount < powerUpsSlider.maxValue)
         {
-            if (PlayerPrefs.GetInt("Money") >= powerUpsPrices[powerUpsUpgradesAmount])
+            if (PlayerPrefs.GetInt("Money") >= powerUpsPrices[powerUpsUpgradesAmount - 1])
             {
-                PlayerPrefs.SetFloat("PowerUps", 1 * powerUpsUpgradesAmount);
-                RemoveMoney(powerUpsPrices[powerUpsUpgradesAmount]);
+                RemoveMoney(powerUpsPrices[powerUpsUpgradesAmount - 1]);
+                moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
                 powerUpsUpgradesAmount++;
                 powerUpsSlider.value = powerUpsUpgradesAmount;
                 powerUpsPriceText.text = powerUpsPrices[powerUpsUpgradesAmount - 1].ToString();
@@ -320,7 +323,7 @@ public class UpgradesController : MonoBehaviour
 
             else
             {
-                if (PlayerPrefs.GetInt("Money") <= powerUpsPrices[powerUpsUpgradesAmount])
+                if (PlayerPrefs.GetInt("Money") < powerUpsPrices[powerUpsUpgradesAmount - 1])
                 {
                     Debug.Log("You need more money");
                 }
@@ -335,10 +338,10 @@ public class UpgradesController : MonoBehaviour
     {
         if (speedBoosterUpgradesAmount < speedBoosterSlider.maxValue)
         {
-            if (PlayerPrefs.GetInt("Money") >= speedBoosterPrices[speedBoosterUpgradesAmount])
+            if (PlayerPrefs.GetInt("Money") >= speedBoosterPrices[speedBoosterUpgradesAmount - 1])
             {
-                PlayerPrefs.SetFloat("SpeedBooster", 1 * speedBoosterUpgradesAmount);
-                RemoveMoney(speedBoosterPrices[speedBoosterUpgradesAmount]);
+                RemoveMoney(speedBoosterPrices[speedBoosterUpgradesAmount - 1]);
+                moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
                 speedBoosterUpgradesAmount++;
                 speedBoosterSlider.value = speedBoosterUpgradesAmount;
                 speedBoosterPriceText.text = speedBoosterPrices[speedBoosterUpgradesAmount - 1].ToString();
@@ -352,7 +355,7 @@ public class UpgradesController : MonoBehaviour
 
             else
             {
-                if (PlayerPrefs.GetInt("Money") <= speedBoosterPrices[speedBoosterUpgradesAmount])
+                if (PlayerPrefs.GetInt("Money") < speedBoosterPrices[speedBoosterUpgradesAmount - 1])
                 {
                     Debug.Log("You need more money");
                 }
@@ -378,7 +381,6 @@ public class UpgradesController : MonoBehaviour
     public void ResetStats()
     {
         PlayerPrefs.DeleteAll();
-        PlayerPrefs.SetInt("Money", 1000000);
 
         speedUpgradesAmount = 1;
         speedSlider.value = speedUpgradesAmount;
@@ -403,12 +405,22 @@ public class UpgradesController : MonoBehaviour
         speedBoosterUpgradesAmount = 1;
         speedBoosterSlider.value = speedBoosterUpgradesAmount;
         speedBoosterPriceText.text = speedBoosterPrices[0].ToString();
+       
+        PlayerPrefs.SetInt("Money", 0);
+        moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
+
         PlayerPrefs.Save();
     }
     void RemoveMoney(int amount)
     {
         int money = PlayerPrefs.GetInt("Money");
         PlayerPrefs.SetInt("Money", money - amount);
+
+    }
+    public void GiveMoney()
+    {
+        PlayerPrefs.SetInt("Money", 100000);
+        moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
     }
 
 }

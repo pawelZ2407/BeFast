@@ -133,6 +133,7 @@ public class WeaponsSystem : MonoBehaviour
         bullet.transform.position = middleSpawner.position;
         bullet.transform.DOScale(chargedSecondaryBulletScale, secondaryModeChargingTime);
         yield return new WaitForSeconds(secondaryModeChargingTime);
+        GameManager.instance.ShakeCamera(10, 0.2f);
         AudioManager.instance.StopSFXSound();
         AudioManager.instance.PlayBigDefault();
         bullet.transform.parent = null;

@@ -12,10 +12,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip smallBall;
     [SerializeField] AudioClip bigBall;
     [SerializeField] AudioClip bigBallCharge;
+    [SerializeField] List<AudioClip> backgroundMusic = new List<AudioClip>();
+
+    [SerializeField] AudioClip enemyDeath;
 
     [SerializeField] AudioSource backgroundMusicSource;
     [SerializeField] AudioSource SFXAudioSource;
-
+    [SerializeField] AudioSource enemySource;
 
     private void Awake()
     {
@@ -28,7 +31,14 @@ public class AudioManager : MonoBehaviour
             _instance = this;
         }
     }
-
+    private void Update()
+    {
+        if (!backgroundMusicSource.isPlaying)
+        {
+            backgroundMusicSource.clip = backgroundMusic[Random.Range(0, backgroundMusic.Count - 1)];
+            backgroundMusicSource.Play();
+        }
+    }
     public void PlayConstantLaser()
     {
         SFXAudioSource.clip = laserConstant;
@@ -55,5 +65,10 @@ public class AudioManager : MonoBehaviour
     {
         SFXAudioSource.loop = false;
         SFXAudioSource.Stop();
+    }
+    public void PlayEnemyDeathSound()
+    {
+        enemySource.loop = false;
+        enemySource.PlayOneShot(enemyDeath);
     }
 }

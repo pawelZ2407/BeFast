@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LaserWeapon : MonoBehaviour
 {
-    AudioSource audioSource;
     WeaponsSystem weaponsSystem;
 
     LineRenderer lr;
@@ -21,21 +20,17 @@ public class LaserWeapon : MonoBehaviour
 
     List<GameObject> lightsList = new List<GameObject>();
 
-    //AudioClips
-    [SerializeField] AudioClip laserInitSound;
-    [SerializeField] AudioClip laserShootingSound;
     void Start()
     {
         
         weaponsSystem = GetComponent<WeaponsSystem>();
-        audioSource = weaponsSystem.audioSource;
         middleSpawner = weaponsSystem.middleSpawner;
         lr = GetComponent<LineRenderer>();
         int weaponsUpgradeLevel = PlayerPrefs.GetInt("WeaponsUpgrades");
 
         laserDamage += weaponsUpgradeLevel * laserDamageUpgradeRate;
 
-        for (int i = 0; i <= 50; i++)
+        for (int i = 0; i <= 100; i++)
         {
             lightsList.Add(Instantiate(laserLight,middleSpawner.position,Quaternion.identity, this.transform));
         }
