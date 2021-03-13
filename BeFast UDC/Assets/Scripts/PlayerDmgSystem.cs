@@ -92,7 +92,7 @@ public class PlayerDmgSystem : MonoBehaviour
         {
             shieldPoints = maxShieldPoints;
         }
-        shieldSlider.value = health;
+        shieldSlider.value = shieldPoints;
     }
     private void RecoverShield()
     {

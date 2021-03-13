@@ -53,7 +53,7 @@ public class EnemyAI : MonoBehaviour
         isShooting = true;
         while (true)
         {
-            bullet = Instantiate(bulletPrefab, this.transform);
+            bullet = Instantiate(bulletPrefab, enemyBody);
             bullet.transform.position = bulletSpawner.position;
             bullet.transform.DOScale(chargedBulletScale, bulletChargingTime);
             yield return new WaitForSeconds(bulletChargingTime);
