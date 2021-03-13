@@ -57,6 +57,7 @@ public class PlayerCollision : MonoBehaviour
             GameManager.instance.isPowerUpSpawned = false;
         }
         if(collision.CompareTag("DefaultWeapon")){
+            GetComponent<LaserWeapon>().StopLaser();
             weaponsSystem.equippedWeapon = "Default";
             Destroy(collision.gameObject);
             GameManager.instance.isPowerUpSpawned = false;

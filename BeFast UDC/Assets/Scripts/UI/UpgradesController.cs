@@ -373,6 +373,7 @@ public class UpgradesController : MonoBehaviour
     public void GoToMainMenu()
     {
         UpgradesScreen.SetActive(false);
+       
         if (!mainMenuScreen.activeSelf)
         {
             mainMenuScreen.SetActive(true);

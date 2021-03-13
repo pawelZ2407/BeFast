@@ -16,6 +16,7 @@ public class MainMenuButtons : MonoBehaviour
 
     public void GoToUpgrades()
     {
+        mainMenuScreen.SetActive(false);
         upgradesScreen.SetActive(true);
     }
     public void Settings()
@@ -24,7 +25,7 @@ public class MainMenuButtons : MonoBehaviour
     }
     public void Exit()
     {
-
+        Application.Quit();
     }
 
 }

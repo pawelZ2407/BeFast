@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject mainMenuScreen;
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] GameObject moneyText;
+    [SerializeField] TMP_Text gameOverScoreText;
 
     public Transform player;
     float shakeTimer;
@@ -85,9 +86,12 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         AudioManager.instance.StopSFXSound();
+        AudioManager.instance.PlayGameOverSound();
         gameOverScreen.SetActive(true);
         PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
         moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
+        gameOverScoreText.text = score.ToString()
+           ;
         if (score > PlayerPrefs.GetInt("Highscore"))
         {
             PlayerPrefs.SetInt("Highscore", score);

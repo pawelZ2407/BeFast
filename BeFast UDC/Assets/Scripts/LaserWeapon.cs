@@ -72,7 +72,7 @@ public class LaserWeapon : MonoBehaviour
         }
 
     }
-    private void OnMouseButtonUp()
+    void OnMouseButtonUp()
     {
         if (Input.GetMouseButtonUp(0))
         {
@@ -140,5 +140,22 @@ public class LaserWeapon : MonoBehaviour
         lightsList[lightIndex].transform.position = middleSpawner.position;
         lightsList[lightIndex].transform.rotation = transform.rotation;
         lightsList[lightIndex].SetActive(true);
+    }
+    public void StopLaser()
+    {
+
+            if (weaponsSystem.shooting != null) StopCoroutine(weaponsSystem.shooting);
+            weaponsSystem.isShooting = false;
+            laserEndPoint.position = middleSpawner.position;
+            lr.enabled = false;
+            CancelInvoke();
+            AudioManager.instance.StopSFXSound();
+            for (int i = 0; i <= lightsList.Count - 1; i++)
+            {
+                if (lightsList[i].activeSelf)
+                {
+                    lightsList[i].SetActive(false);
+                }
+            }
     }
 }

@@ -30,6 +30,7 @@ public class WeaponsSystem : MonoBehaviour
     public Coroutine shooting;
     void Start()
     {
+        Physics2D.IgnoreLayerCollision(9, 12);
         equippedWeapon = "Laser";
         int weaponsUpgradeLevel = PlayerPrefs.GetInt("WeaponsUpgrades");
         bulletSpeed += weaponsUpgradeLevel * bulletSpeedUpgradeRate;
@@ -73,7 +74,7 @@ public class WeaponsSystem : MonoBehaviour
         }
     }
 
-    void OnMouseButtonUp()
+    public void OnMouseButtonUp()
     {
             if (Input.GetMouseButtonUp(0) && isShooting)
             {
@@ -145,7 +146,32 @@ public class WeaponsSystem : MonoBehaviour
 
         isCharging = false;
     }
-  
+  public void StopDefaultWeapon()
+    {
+        if (isShooting)
+        {
+            if (bullet != null) Destroy(bullet);
+
+            if (shooting != null)
+            {
+                StopCoroutine(shooting);
+            }
+
+            isShooting = false;
+        }
+
+
+        if (isCharging)
+        {
+            Destroy(bullet);
+            if (shooting != null)
+            {
+                StopCoroutine(shooting);
+            }
+            AudioManager.instance.StopSFXSound();
+            isCharging = false;
+        }
+    }
   
 
 

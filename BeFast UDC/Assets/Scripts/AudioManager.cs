@@ -8,6 +8,8 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager instance { get { return _instance; } }
 
+    [SerializeField] AudioClip gameOverSound;
+
     [SerializeField] AudioClip laserConstant;
     [SerializeField] AudioClip smallBall;
     [SerializeField] AudioClip bigBall;
@@ -70,5 +72,19 @@ public class AudioManager : MonoBehaviour
     {
         enemySource.loop = false;
         enemySource.PlayOneShot(enemyDeath);
+    }
+    public void PlayGameOverSound()
+    {
+        SFXAudioSource.loop = false;
+        backgroundMusicSource.loop = false;
+        backgroundMusicSource.Stop();
+        StartCoroutine(BackgroundVolumeLower());
+        SFXAudioSource.PlayOneShot(gameOverSound);
+    }
+    IEnumerator BackgroundVolumeLower()
+    {
+        backgroundMusicSource.volume -=  0.3f;
+        yield return new WaitForSeconds(2.5f);
+        backgroundMusicSource.volume += 0.3f;
     }
 }

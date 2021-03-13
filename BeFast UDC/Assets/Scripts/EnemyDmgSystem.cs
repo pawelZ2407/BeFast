@@ -28,8 +28,7 @@ public class EnemyDmgSystem : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log("Weapons upgrades: " + PlayerPrefs.GetInt("WeaponsUpgrades"));
-        getHeatTickrate -= PlayerPrefs.GetInt("WeaponsUpgrades") * 0.011f;
+        getHeatTickrate -= PlayerPrefs.GetInt("WeaponsUpgrades") * 0.005f;
         currentHeatTicks = maxHeatTicks;
         slider.value = health;
         defaultColor = spriteRenderer.color;
@@ -44,7 +43,7 @@ public class EnemyDmgSystem : MonoBehaviour
         slider.value = health;
         if (health <= 0)
         {
-            GameManager.instance.AddScore(10);
+            GameManager.instance.AddScore(35);
             AudioManager.instance.PlayEnemyDeathSound();
             var deadEffectSpawn = Instantiate(deadEffect);
            
