@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float fuelDecreaseUpgradeRate;
     [SerializeField] float fuelRecoverUpgradeRate;
 
+    [SerializeField] GameObject forceField;
     private void Awake()
     {
     }
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         float yMove = Input.GetAxisRaw("Vertical") * speed;
         move = new Vector2(xMove, yMove);
         Vector2.ClampMagnitude(move, speed);
-        if (Input.GetKey(KeyCode.LeftShift)&&fuel>0)
+        if (Input.GetKey(KeyCode.LeftShift)&&fuel>1)
         {
             isBoosting = true;
             move*= fastSpeedMultiplier;
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Enemy") && isBoosting)
+        if (collision.collider.CompareTag("Enemy") && isBoosting&&!forceField.activeSelf)
         {
             collision.collider.GetComponent<EnemyDmgSystem>().GetDamage(boostHitDamage);
             if (shieldSlider.value > 0)
@@ -96,6 +97,13 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Enemy")&& isBoosting && forceField.activeSelf)
+        {
+            collision.GetComponent<EnemyDmgSystem>().GetDamage(boostHitDamage);
         }
     }
 

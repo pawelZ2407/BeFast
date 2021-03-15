@@ -13,6 +13,7 @@ TagManager:
   - Obstacle
   - DefaultWeapon
   - LaserWeapon
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -61,6 +62,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 3528839417
+    locked: 0
+  - name: EnemyBullet
+    uniqueID: 824534775
     locked: 0
   - name: Enemy
     uniqueID: 1868211991

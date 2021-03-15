@@ -43,8 +43,13 @@ public class GameManager : MonoBehaviour
         cinemachineBasicMultiChannelPerlin =
             cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         EnemiesPreInstantiate();
-    }
 
+        if(PlayerPrefs.GetInt("SpeedUpgrades") + PlayerPrefs.GetInt("WeaponsUpgrades") + PlayerPrefs.GetInt("SpeedBoosterUpgrades") >= 10)
+        {
+            enemiesPerSecond += 1;
+        }
+    }
+    [SerializeField] TMP_Text highscoreText;
     [SerializeField] TMP_Text scoreText;
     public int score;
     [SerializeField] GameObject coinPrefab;
@@ -66,11 +71,13 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        timerText.text = timer.ToString();
+        float timerAfterRound = (float)Mathf.Round(timer * 100f) / 100f;
+        timerText.text = timerAfterRound.ToString();
+
     }
     private void EnemiesPreInstantiate()
     {
-    for(int i = 0; i <= 500; i++)
+    for(int i = 0; i <= 300; i++)
         {
             enemiesToSpawn.Add(Instantiate(enemiesTypesList[0]));
             enemiesToSpawn[i].GetComponent<AIDestinationSetter>().target = player;
@@ -90,13 +97,13 @@ public class GameManager : MonoBehaviour
         gameOverScreen.SetActive(true);
         PlayerPrefs.SetInt("Money", score + PlayerPrefs.GetInt("Money"));
         moneyText.GetComponent<TMP_Text>().text = PlayerPrefs.GetInt("Money").ToString();
-        gameOverScoreText.text = score.ToString()
-           ;
+        gameOverScoreText.text = score.ToString();
         if (score > PlayerPrefs.GetInt("Highscore"))
         {
             PlayerPrefs.SetInt("Highscore", score);
         }
         PlayerPrefs.Save();
+        highscoreText.text = PlayerPrefs.GetInt("Highscore").ToString();
     }
     private void SavingSystemInit()
     {
@@ -115,7 +122,7 @@ public class GameManager : MonoBehaviour
 
         var coin = Instantiate(coinPrefab);
         coin.transform.position = coinsSpawnPlaces[Random.Range(0, coinsSpawnPlaces.Count - 1)].position;
-        SpawnEnemies(coin.transform.position, (int)timer);
+        SpawnEnemies(coin.transform.position, Mathf.RoundToInt(timer));
         if (!isPowerUpSpawned)
         {
             SpawnPowerUps();
@@ -135,31 +142,20 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        if (enemiesToSpawn.Count - 1 >= amountOfEnemies * enemiesPerSecond)
-        {
-            for (int j = 0; j < amountOfEnemies * enemiesPerSecond; j++)
-            {
-                if (!enemiesToSpawn[j].activeSelf)
+        int j = 0;
+        for (int i = 0; i <= enemiesToSpawn.Count - 1; i++)
+        { 
+                if (!enemiesToSpawn[i].activeSelf)
                 {
-                    enemiesToSpawn[j].SetActive(true);
-                    enemiesToSpawn[j].transform.position = closestSpawner;
-                    enemiesToSpawn[j].GetComponent<AIDestinationSetter>().target = player;
+                    enemiesToSpawn[i].SetActive(true);
+                    enemiesToSpawn[i].transform.position = closestSpawner;
+                    j++;
                 }
-            }
-        }
-        else
-        {
-            for (int j = 0; j < enemiesToSpawn.Count; j++)
-            {
-                if (!enemiesToSpawn[j].activeSelf)
+                if (j >= amountOfEnemies * enemiesPerSecond)
                 {
-                    enemiesToSpawn[j].SetActive(true);
-                    enemiesToSpawn[j].transform.position = closestSpawner;
-
+                    break;
                 }
-            }
         }
-       
         
     }
     void SpawnPowerUps()

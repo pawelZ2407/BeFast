@@ -15,7 +15,7 @@ public class LaserWeapon : MonoBehaviour
     [SerializeField] float lightSpawnRate;
     [SerializeField] LayerMask laserDetectionLayerMask;
     [SerializeField] Transform laserEndPoint;
-
+    [SerializeField] GameObject laserStart;
     Transform middleSpawner;
 
     List<GameObject> lightsList = new List<GameObject>();

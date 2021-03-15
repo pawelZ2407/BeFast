@@ -127,9 +127,11 @@ MonoBehaviour:
   enemyBody: {fileID: 6598793945780918536}
   startShootingDistance: 5
   speed: 100
-  bulletChargingTime: 0.75
+  bulletChargingTime: 0.55
   chargedBulletScale: 0.4
-  bulletSpeed: 400
+  bulletSpeed: 200
+  minAngleMiss: -5
+  maxAngleMiss: 5
   bulletPrefab: {fileID: 4810930924295873343, guid: fa1f92c4678abe146887139472096e6b,
     type: 3}
   bulletSpawner: {fileID: 6598793946816437806}
@@ -230,7 +232,7 @@ MonoBehaviour:
     type: 3}
   laserExplosionRange: 2
   explosionDamage: 50
-  getHeatTickrate: 0.15
+  getHeatTickrate: 0.1
   spriteRenderer: {fileID: 6598793945780918538}
   tickingColor: {r: 1, g: 0.4764151, b: 0.4764151, a: 0}
 --- !u!50 &7083533946602075990

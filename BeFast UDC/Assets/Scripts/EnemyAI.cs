@@ -13,6 +13,9 @@ public class EnemyAI : MonoBehaviour
     public float bulletChargingTime;
     public float chargedBulletScale;
     public float bulletSpeed;
+    [SerializeField] float minAngleMiss;
+    [SerializeField] float maxAngleMiss;
+
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawner;
     GameObject bullet;
@@ -22,11 +25,21 @@ public class EnemyAI : MonoBehaviour
     Rigidbody2D rb2d;
     AIPath path;
 
+    List<GameObject> bulletsList = new List<GameObject>();
+    List<EnemyBulletScript> bulletScript = new List<EnemyBulletScript>();
+    List<CircleCollider2D> bulletsCollider = new List<CircleCollider2D>();
     void Start()
     {
         player = GameManager.instance.player;
         rb2d = GetComponent<Rigidbody2D>();
         path = GetComponent<AIPath>();
+
+        for (int i = 0; i <= 5; i++)
+        {
+            bulletsList.Add(Instantiate(bulletPrefab, transform));
+            bulletsCollider.Add(bulletsList[i].GetComponent<CircleCollider2D>());
+            bulletScript.Add(bulletsList[i].GetComponent<EnemyBulletScript>());
+        }
     }
 
 
@@ -53,15 +66,28 @@ public class EnemyAI : MonoBehaviour
         isShooting = true;
         while (true)
         {
-            bullet = Instantiate(bulletPrefab, enemyBody);
-            bullet.transform.position = bulletSpawner.position;
-            bullet.transform.DOScale(chargedBulletScale, bulletChargingTime);
+            int bulletIndex = 0;
+            for(int i = 0; i <= bulletsList.Count - 1; i++)
+            {
+                if (bulletsList[i].activeSelf == false)
+                {
+                    bulletIndex = i;
+                    bulletsList[i].SetActive(true);
+                    break;
+                }
+            }
+            bulletsList[bulletIndex].transform.parent= bulletSpawner.transform;
+            bulletsList[bulletIndex].transform.position = bulletSpawner.position;
+            bulletsList[bulletIndex].transform.DOScale(chargedBulletScale, bulletChargingTime);
             yield return new WaitForSeconds(bulletChargingTime);
-            bullet.GetComponent<CircleCollider2D>().enabled = true;
-            bullet.transform.parent = null;
-            bullet.transform.rotation = enemyBody.transform.rotation;
+            bulletsCollider[bulletIndex].enabled = true;
+            bulletScript[bulletIndex].canShoot = true;
+            bulletScript[bulletIndex].disableAfterTime = true;
+            bulletsList[bulletIndex].transform.parent = null;
+            bulletsList[bulletIndex].transform.rotation = enemyBody.transform.rotation;
+            bulletsList[bulletIndex].transform.eulerAngles = new Vector3(0, 0, bulletsList[bulletIndex].transform.eulerAngles.z + Random.Range(minAngleMiss, maxAngleMiss));
 
-            bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * bulletSpeed * Time.deltaTime;
+            
         }
     }
 }
